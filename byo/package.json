@@ -1,0 +1,34 @@
+{
+  "name": "phenogrid",
+  "version": "0.0.1",
+  "description": "Monarch PhenoGrid widget",
+  "browser": {
+    "jquery": "./node_modules/jquery/dist/jquery.js",
+    "jquery-ui": "./node_modules/jquery-ui/jquery-ui.js",
+    "d3": "./node_modules/d3/d3.min.js"
+  },
+  "style": [
+    "./css/phenogrid.css",
+    "./css/stickytooltip.css",
+    "./node_modules/jquery-ui/themes/base/jquery-ui.css"
+  ],
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "d3": {
+      "exports": "global:d3"
+    },
+    "jquery": {
+      "exports": "global:$"
+    },
+    "jquery-ui": {
+      "depends": [
+        "jquery"
+      ]
+    }
+  },
+  "main": "js/phenogrid.js"
+}

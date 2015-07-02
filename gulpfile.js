@@ -31,14 +31,43 @@ var paths = {
 // The default task is to build the different distributions.
 gulp.task('bundle', ['browserify-byo', 'create-bundle']);
 
+/*
+gulp.task('create-byo', function(cb) {
+    browserify('./js/phenogrid.js',
+                {
+                    debug: false,
+                    shim:   {
+                                "d3": {
+                                  "exports": "global:d3"
+                                },
+                                "jquery": {
+                                  "exports": "global:$"
+                                },
+                                "jquery-ui": {
+                                  "depends": [
+                                    "jquery"
+                                  ]
+                                }
+                            },
+                })
+
+    .bundle()
+    .pipe(source('./js/phenogrid.js'))
+    .pipe(rename('phenogrid-byo.js'))
+    .pipe(gulp.dest('./dist/'))
+    .on('end', cb);
+});
+*/
+
+
 // Bundle together 
 gulp.task('browserify-byo', function(cb) {
     browserify('./js/phenogrid.js')
-	.bundle()
-        .pipe(source('./js/phenogrid.js'))
-	.pipe(rename('phenogrid-byo.js'))
-	.pipe(gulp.dest('./dist/'))
-	.on('end', cb);
+    .bundle()
+    .pipe(source('./js/phenogrid.js'))
+    .pipe(rename('phenogrid-byo.js'))
+    .pipe(gulp.dest('./dist/'))
+    .on('end', cb);
 });
 
 // Cat on the used jquery to the bundle.
