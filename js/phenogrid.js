@@ -113,6 +113,7 @@ var TooltipRender = require('./render.js');
 		config: {
 			// scriptpath is used for images URL, can be removed later - Joe
 			scriptpath : $('script[src*="phenogrid"]').last().attr('src').split('?')[0].split('/').slice(0, -1).join('/')+'/', // Outputs 'js/' - Joe
+			scriptpathParent : $('script[src*="phenogrid"]').last().attr('src').split('?')[0].split('/').slice(0, -2).join('/')+'/', // Outputs 'js/' - Joe
 			colorDomains: [0, 0.2, 0.4, 0.6, 0.8, 1],
 			colorRanges: [
 				['rgb(229,229,229)','rgb(164,214,212)','rgb(68,162,147)','rgb(97,142,153)','rgb(66,139,202)','rgb(25,59,143)'], // blue - Joe
@@ -447,7 +448,8 @@ var TooltipRender = require('./render.js');
 		 * this should not impact any standalone uses of phenogrid, and will be removed once monarch-app is cleaned up.
 		 */
 		_getResourceUrl: function(name, type) {
-			var prefix = this.state.serverURL+'/widgets/phenogrid/js/';
+			var prefix = this.state.serverURL+'/node_modules/phenogrid/js/';
+			console.log('_getResourceUrl:', prefix, name, type);
 			return prefix + 'res/' + name + '.' + type;
 		},
 
@@ -1773,7 +1775,7 @@ var TooltipRender = require('./render.js');
 
 			var img = $("<img>")
 					.attr("id", "img-spinner")
-					.attr("src", this.state.scriptpath + "../image/waiting_ac.gif")
+					.attr("src", this.state.scriptpathParent + "image/waiting_ac.gif")
 					.attr("alt", "Loading, please wait...");
 
 			var wait = $("<div>")
@@ -1895,7 +1897,7 @@ var TooltipRender = require('./render.js');
 			//var imgs = this.state.svg.selectAll("image").data([0]);
 			//imgs.enter()
 			this.state.svg.append("svg:image")
-				.attr("xlink:href", this.state.scriptpath + "../image/logo.png")
+				.attr("xlink:href", this.state.scriptpathParent + "image/logo.png")
 				.attr("x", start)
 				.attr("y",0)
 				.attr("id", "pg_logo")
@@ -2370,14 +2372,14 @@ var TooltipRender = require('./render.js');
 				.attr('y', y-10)
 				.attr('width', 9)
 				.attr('height', 9)
-				.attr('xlink:href', this.state.scriptpath + '../image/downarrow.png');
+				.attr('xlink:href', this.state.scriptpathParent + 'image/downarrow.png');
 			} else if (this._isGenoType(data)) {
 				p.append("image")
 				.attr('x', x-3)
 				.attr('y', y-10)
 				.attr('width', 9)
 				.attr('height', 9)
-				.attr('xlink:href', this.state.scriptpath + '../image/checkmark-drk.png'); //small-bracket.png');
+				.attr('xlink:href', this.state.scriptpathParent + 'image/checkmark-drk.png'); //small-bracket.png');
 			}
 
 			el.remove();
@@ -2505,7 +2507,7 @@ var TooltipRender = require('./render.js');
 				.attr("id", "pg_detail_content")
 				.attr("y", (16 + this.state.detailRectStrokeWidth))
 				.attr("x", (545 + this.state.detailRectStrokeWidth))
-				.attr("xlink:href","/widgets/phenogrid/image/throbber.gif");
+				.attr("xlink:href","../image/throbber.gif");
 		},
 
 		// extract the x,y values from a SVG transform string (ex: transform(200,20))
