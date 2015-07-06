@@ -84,7 +84,7 @@ var TooltipRender = require('./render.js');
 
   
 (function($, window, document, __undefined__) {
-	window.$ = window.jQuery = $;
+	//window.$ = window.jQuery = $;
 
 	var createPhenogridForElement = function(element, options) {
 		var jqElement = $(element);
