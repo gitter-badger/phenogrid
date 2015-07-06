@@ -29,28 +29,28 @@ var paths = {
 };
 
 // The default task is to build the different distributions.
-gulp.task('bundle', ['browserify-byo', 'create-bundle']);
+gulp.task('bundle', ['browserify-byo']);
 
 // Bundle together 
 gulp.task('browserify-byo', function(cb) {
     browserify('./js/phenogrid.js')
 	.bundle()
-        .pipe(source('./js/phenogrid.js'))
+    .pipe(source('./js/phenogrid.js'))
 	.pipe(rename('phenogrid-byo.js'))
 	.pipe(gulp.dest('./dist/'))
 	.on('end', cb);
 });
 
 // Cat on the used jquery to the bundle.
-gulp.task('create-bundle', ['browserify-byo'], function() {
-    var pkg = require('./package.json');
-    var jq_path = pkg['browser']['jquery'];
-    //var jqui_path = pkg['browser']['jquery-ui'];
-    gulp.src([jq_path, 'dist/phenogrid-byo.js'])
-    //gulp.src(['./dist/phenogrid-byo.js'])
-	.pipe(concat('phenogrid-bundle.js'))
-	.pipe(gulp.dest('./dist/'));
-});
+// gulp.task('create-bundle', ['browserify-byo'], function() {
+//     var pkg = require('./package.json');
+//     var jq_path = pkg['browser']['jquery'];
+//     //var jqui_path = pkg['browser']['jquery-ui'];
+//     gulp.src([jq_path, 'dist/phenogrid-byo.js'])
+//     //gulp.src(['./dist/phenogrid-byo.js'])
+// 	.pipe(concat('phenogrid-bundle.js'))
+// 	.pipe(gulp.dest('./dist/'));
+// });
 
 // Browser runtime environment construction.
 gulp.task('build', ['bundle', 'patch-bump', 'docs']);
@@ -115,11 +115,20 @@ gulp.task('tests', function() {
 gulp.task('release', ['build', 'publish-npm']);
 
 // Needs to have ""
+gulp.task('unpublish-npm', function() {
+    var npm = require("npm");
+    npm.load(function (er, npm) {
+    // The unpublish command doesn't work with Sinopia. Use `npm unpublish` directly.
+    npm.commands.unpublish(); 
+    });
+});
+
+// Needs to have ""
 gulp.task('publish-npm', function() {
     var npm = require("npm");
     npm.load(function (er, npm) {
-	// NPM
-	npm.commands.publish();	
+    // NPM
+    npm.commands.publish(); 
     });
 });
 

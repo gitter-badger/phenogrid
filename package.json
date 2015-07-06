@@ -1,6 +1,6 @@
 {
-  "name": "phenogrid",
-  "version": "0.0.1",
+  "name": "local-phenogrid",
+  "version": "0.0.2",
   "description": "Monarch PhenoGrid widget",
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "jquery": "^2.1.4",
     "jquery-ui": "^1.10.5",
     "jshashtable": "^0.1.0",
+    "npm": "^2.12.1",
     "vinyl-source-stream": "^1.1.0"
   },
   "xbrowser": {
