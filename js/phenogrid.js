@@ -111,9 +111,7 @@ var TooltipRender = require('./render.js');
 		// only used twice, one of them is for config.h, which according to the comments, h should be elimiated - Joe
 		// so we can just use one variable for all configs to contain everything in congig and internalOptions - Joe
 		config: {
-			// scriptpath is used for images URL, can be removed later - Joe
-			scriptpath : $('script[src*="phenogrid"]').last().attr('src').split('?')[0].split('/').slice(0, -1).join('/')+'/', // Outputs 'js/' - Joe
-			scriptpathParent : $('script[src*="phenogrid"]').last().attr('src').split('?')[0].split('/').slice(0, -2).join('/')+'/', // Outputs 'js/' - Joe
+			imagePath : '',
 			colorDomains: [0, 0.2, 0.4, 0.6, 0.8, 1],
 			colorRanges: [
 				['rgb(229,229,229)','rgb(164,214,212)','rgb(68,162,147)','rgb(97,142,153)','rgb(66,139,202)','rgb(25,59,143)'], // blue - Joe
@@ -448,7 +446,14 @@ var TooltipRender = require('./render.js');
 		 * this should not impact any standalone uses of phenogrid, and will be removed once monarch-app is cleaned up.
 		 */
 		_getResourceUrl: function(name, type) {
-			var prefix = this.state.serverURL+'/node_modules/phenogrid/js/';
+			var prefix = this.state.serverURL;
+
+			if (prefix === '') {
+				prefix = '/node_modules/phenogrid/js/';
+			}
+			else {
+				prefix += '/widgets/phenogrid/js/';
+			}
 			console.log('_getResourceUrl:', prefix, name, type);
 			return prefix + 'res/' + name + '.' + type;
 		},
@@ -472,6 +477,19 @@ var TooltipRender = require('./render.js');
 			// target species name might be provided as a name or as taxon. Make sure that we translate to name
 			this.state.targetSpeciesName = this._getTargetSpeciesNameByTaxon(this, this.state.targetSpeciesName);
 			this.state.phenotypeData = this._filterPhenotypeResults(this.state.phenotypeData);
+
+
+			var pathElements = $('script[src*="phenogrid-byo"]').last().attr('src').split('?')[0].split('/');
+console.log('pathElements:', pathElements);
+			var basePathElements = (pathElements.length == 1) ? pathElements[0] : pathElements.slice(0, -2);
+console.log('basePathElements:', basePathElements);
+			if (basePathElements.length === 0) {
+				this.state.imagePath = 'image/';
+			}
+			else {
+				this.state.imagePath = basePathElements.join('/')+'/image/';
+			}
+console.log('imagePath:', this.state.imagePath);
 
 			this._loadData();
 
@@ -1775,7 +1793,7 @@ var TooltipRender = require('./render.js');
 
 			var img = $("<img>")
 					.attr("id", "img-spinner")
-					.attr("src", this.state.scriptpathParent + "image/waiting_ac.gif")
+					.attr("src", this.state.imagePath + "waiting_ac.gif")
 					.attr("alt", "Loading, please wait...");
 
 			var wait = $("<div>")
@@ -1896,8 +1914,9 @@ var TooltipRender = require('./render.js');
 			}
 			//var imgs = this.state.svg.selectAll("image").data([0]);
 			//imgs.enter()
+			console.log('addlogo:', this.state);
 			this.state.svg.append("svg:image")
-				.attr("xlink:href", this.state.scriptpathParent + "image/logo.png")
+				.attr("xlink:href", this.state.imagePath + "logo.png")
 				.attr("x", start)
 				.attr("y",0)
 				.attr("id", "pg_logo")
@@ -2372,14 +2391,14 @@ var TooltipRender = require('./render.js');
 				.attr('y', y-10)
 				.attr('width', 9)
 				.attr('height', 9)
-				.attr('xlink:href', this.state.scriptpathParent + 'image/downarrow.png');
+				.attr('xlink:href', this.state.imagePath + 'downarrow.png');
 			} else if (this._isGenoType(data)) {
 				p.append("image")
 				.attr('x', x-3)
 				.attr('y', y-10)
 				.attr('width', 9)
 				.attr('height', 9)
-				.attr('xlink:href', this.state.scriptpathParent + 'image/checkmark-drk.png'); //small-bracket.png');
+				.attr('xlink:href', this.state.imagePath + 'checkmark-drk.png'); //small-bracket.png');
 			}
 
 			el.remove();

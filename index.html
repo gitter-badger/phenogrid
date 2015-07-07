@@ -16,8 +16,8 @@
 <!-- <script src="dist/phenogrid-byo.js"></script> -->
 <!-- Option 2 End -->
 
-<script charset="UTF-8" src="dist/phenogrid-byo.js"></script>
 <script src="config/phenogrid_config.js"></script>
+<script charset="UTF-8" src="dist/phenogrid-byo.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/font-awesome.css"/>
 <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
@@ -44,8 +44,10 @@ var phenotypes = [
 ];	
 
 function initializePhenogrid(element) {
+	var serverURL = "http://beta.monarchinitiative.org";
+
 	Phenogrid.createPhenogridForElement(element, {
-		serverURL :"http://beta.monarchinitiative.org",
+		serverURL : serverURL,
 		phenotypeData: phenotypes,
 		targetSpeciesName: "Mus musculus"
 	});
