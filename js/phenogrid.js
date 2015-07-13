@@ -439,7 +439,14 @@ var TooltipRender = require('./render.js');
 		 * this should not impact any standalone uses of phenogrid, and will be removed once monarch-app is cleaned up.
 		 */
 		_getResourceUrl: function(name, type) {
-			var prefix = this.state.serverURL+'/widgets/phenogrid/js/';
+			var prefix = this.state.serverURL;
+
+			if (prefix === '') {
+				prefix = '/node_modules/phenogrid/js/';
+			}
+			else {
+				prefix += '/widgets/phenogrid/js/';
+			}
 			return prefix + 'res/' + name + '.' + type;
 		},
 
