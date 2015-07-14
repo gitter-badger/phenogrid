@@ -1,5 +1,7 @@
 #Development status of this repo
 
+[![Join the chat at https://gitter.im/DoctorBud/phenogrid](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DoctorBud/phenogrid?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 - npm-config-kltm branch and zy branch are dead
 - The css/ folder contains all individual css files, changes made to jquery-ui and font-awesome, and added ‘-modified’ in the file name, so you know they are customized versions. 
 - The js/ folder contains all individual js files in CommonJS format.
